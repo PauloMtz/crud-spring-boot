@@ -2,9 +2,13 @@ package com.sistema.controllers;
 
 import java.io.IOException;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,8 +32,13 @@ public class DepartamentoController {
     }
 
     @PostMapping("/cadastrar")
-    public String cadastrar(Departamento departamento) throws IOException {
+    public String cadastrar(@Valid @ModelAttribute("depart_form_controller")
+        Departamento departamento, BindingResult result) throws IOException {
 
+        if (result.hasErrors()) {
+            return "departamento/cadastro"; // template
+        }
+        
         repository.save(departamento);
         return "redirect:/departamentos/listar"; // rota
     }
