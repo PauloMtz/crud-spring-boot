@@ -54,8 +54,9 @@ public class DepartamentoController {
     }
 
     @GetMapping("/{id}/excluir")
-    public String excluir(@PathVariable Long id) {
+    public String excluir(@PathVariable Long id, RedirectAttributes attr) {
         repository.deleteById(id);
+        attr.addFlashAttribute("success", "Registro excluído com sucesso.");
         return "redirect:/departamentos/listar"; // rota
     }
 
@@ -72,9 +73,16 @@ public class DepartamentoController {
         não pode ter input type hidden no form
     */
     @PostMapping("/{id}/editar")
-    public String editar(Departamento departamento) throws IOException {
+    public String editar(@Valid @ModelAttribute("depart_form_controller")
+    Departamento departamento, BindingResult result, RedirectAttributes attr) 
+    throws IOException {
+
+        if (result.hasErrors()) {
+			return "cargo/cadastro"; // template
+		}
 
         repository.save(departamento);
+        attr.addFlashAttribute("success", "Registro atualizado com sucesso.");
         return "redirect:/departamentos/listar"; // rota
     }
 }
