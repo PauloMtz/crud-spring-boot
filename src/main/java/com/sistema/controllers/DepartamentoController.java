@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sistema.models.Departamento;
 import com.sistema.repositories.DepartamentoRepository;
@@ -33,13 +34,15 @@ public class DepartamentoController {
 
     @PostMapping("/cadastrar")
     public String cadastrar(@Valid @ModelAttribute("depart_form_controller")
-        Departamento departamento, BindingResult result) throws IOException {
+        Departamento departamento, BindingResult result, RedirectAttributes attr) 
+        throws IOException {
 
         if (result.hasErrors()) {
             return "departamento/cadastro"; // template
         }
         
         repository.save(departamento);
+        attr.addFlashAttribute("success", "Registro inserido com sucesso.");
         return "redirect:/departamentos/listar"; // rota
     }
 
