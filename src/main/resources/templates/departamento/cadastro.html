@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.w3.org/1999/xhtml"
+	layout:decorate="~{_layout}">
+<body>
+	<div class="layout-main" layout:fragment="corpo">
+	
+	    <aside th:replace="fragments/aside :: aside"></aside>
+	
+	    <section class="layout-content">
+	
+	        <nav class="navbar navbar-expand-md bg-light">
+	            <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+	                <ul class="navbar-nav mr-auto">
+	                    <li class="nav-item active">
+	                        <i class="oi oi-caret-right"></i>
+	                        <span>Novo Departamento</span>
+	                    </li>
+	                </ul>
+	            </div>
+	        </nav>   
+	    </section>
+	</div>
+</body>
+</html>	

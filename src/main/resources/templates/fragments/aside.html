@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+    <html xmlns:th="http://www.w3.org/1999/xhtml">
+<body>
+	<aside th:fragment="aside">
+        <nav class="sidebar sidebar-open">
+            <ul class="nav nav-pills">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/}"> 
+                        <i class="oi oi-home"></i> 
+                        <span>Home</span>
+                    </a>
+                </li>
+            </ul>
+
+            <ul class="nav nav-pills">
+                <li class="nav-item">
+                    <span class="nav-link active">Departamentos</span>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/departamentos/cadastrar}"> 
+                        <i class="oi oi-plus"></i> 
+                        <span>Cadastrar</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/departamentos/listar}"> 
+                        <i class="oi oi-spreadsheet"></i>
+                        <span>Listar </span>
+                    </a>
+                </li>
+            </ul>
+
+            <ul class="nav nav-pills">
+                <li class="nav-item">
+                    <span class="nav-link active">Cargos</span>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/cargos/cadastrar}"> 
+                        <i class="oi oi-plus"></i> 
+                        <span>Cadastrar </span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/cargos/listar"> 
+                        <i class="oi oi-spreadsheet"></i> 
+                        <span>Listar</span>
+                    </a>
+                </li>
+            </ul>
+
+            <ul class="nav nav-pills">
+                <li class="nav-item">
+                    <span class="nav-link active">Funcionários</span>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/funcionarios/cadastrar}"> 
+                        <i class="oi oi-plus"></i> 
+                        <span>Cadastrar </span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/funcionarios/listar}"> 
+                        <i class="oi oi-spreadsheet"></i> 
+                        <span>Listar </span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+	<title>Spring-Boot Básico</title>
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+	<!-- Bootstrap core CSS -->
+	<link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" rel="stylesheet" />
+	<link th:href="@{/webjars/open-iconic/font/css/open-iconic-bootstrap.min.css}" rel="stylesheet" />
+	
+	<!-- Custom styles for this template -->
+	<link th:href="@{/css/style.css}" rel="stylesheet" />
+
+	<!-- favicon -->
+    <link rel="icon" th:href="@{/image/favicon.png}" />
+</head>
+<body>
+    <!-- header -->
+	<div th:replace="fragments/header :: cabecalho"></div>
+	
+	<!-- conteúdo principal -->
+	<div class="layout-main" layout:fragment="corpo"></div>
+
+    <!-- footer -->
+    <div th:replace="fragments/footer :: rodape"></div>
+</body>
+</html>
