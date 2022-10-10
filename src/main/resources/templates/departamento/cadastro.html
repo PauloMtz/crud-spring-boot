@@ -18,7 +18,21 @@
 	                    </li>
 	                </ul>
 	            </div>
-	        </nav>   
+	        </nav>
+			
+			<div class="container" id="cadastro">
+	            <form th:object="${depart_form_controller}" method="POST">
+					
+	                <div class="form-row">
+	                    <div class="form-group col-md-6">
+	                        <label for="nome">Departamento</label>
+	                        <input class="form-control" th:field="*{nome}"
+								placeholder="Nome Departamento" autofocus="autofocus" />
+	                    </div>
+	                </div>
+	                <button type="submit" class="btn btn-primary">Salvar</button>
+	            </form>
+	        </div>
 	    </section>
 	</div>
 </body>
