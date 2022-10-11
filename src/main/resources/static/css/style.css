@@ -103,7 +103,7 @@ body {
  * Footer
  */
 .layout-footer {
-	position: fixed;
+	position: relative;
 	left: 0;
 	right: 0;
 	bottom: 0;
@@ -129,5 +129,6 @@ body {
 }
 
 .error_page {
-    margin-left: 10%;
+    margin-left: 20px;
+    margin-top: 20px;
 }
