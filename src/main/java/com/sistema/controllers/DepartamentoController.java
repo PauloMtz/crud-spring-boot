@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.sistema.exceptions.DepartamentoJaCadastradoException;
+import com.sistema.exceptions.ValidacaoException;
 import com.sistema.models.Departamento;
 import com.sistema.repositories.DepartamentoRepository;
 
@@ -34,16 +37,21 @@ public class DepartamentoController {
 
     @PostMapping("/cadastrar")
     public String cadastrar(@Valid @ModelAttribute("depart_form_controller")
-        Departamento departamento, BindingResult result, RedirectAttributes attr) 
-        throws IOException {
+        Departamento departamento, BindingResult result, RedirectAttributes attr) {
 
         if (result.hasErrors()) {
             return "departamento/cadastro"; // template
         }
         
-        repository.save(departamento);
-        attr.addFlashAttribute("success", "Registro inserido com sucesso.");
-        return "redirect:/departamentos/listar"; // rota
+        try {
+            validaDepartamentoUnico(departamento);
+            repository.save(departamento);
+            attr.addFlashAttribute("success", "Registro inserido com sucesso.");
+            return "redirect:/departamentos/listar"; // rota
+        } catch(ValidacaoException e) {
+            result.addError(e.getFieldError());
+            return "departamento/cadastro"; // template
+        }
     }
 
     @GetMapping("/listar")
@@ -81,8 +89,24 @@ public class DepartamentoController {
 			return "cargo/cadastro"; // template
 		}
 
-        repository.save(departamento);
-        attr.addFlashAttribute("success", "Registro atualizado com sucesso.");
-        return "redirect:/departamentos/listar"; // rota
+        try {
+            validaDepartamentoUnico(departamento);
+            repository.save(departamento);
+            attr.addFlashAttribute("success", "Registro atualizado com sucesso.");
+            return "redirect:/departamentos/listar"; // rota
+        } catch(ValidacaoException e) {
+            result.addError(e.getFieldError());
+            return "departamento/cadastro"; // template
+        }
+    }
+
+    private void validaDepartamentoUnico(Departamento departamento) {
+        if (repository.isDepartamentoCadastrado(departamento)) {
+            var mensagem = "Este departamento já está cadastrado.";
+            var fieldError = new FieldError(departamento.getClass().getName(),
+                "nome", departamento.getNome(), false, null, null, mensagem);
+            
+            throw new DepartamentoJaCadastradoException(mensagem, fieldError);
+        }
     }
 }
