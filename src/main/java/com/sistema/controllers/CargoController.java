@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.sistema.exceptions.ValidacaoException;
 import com.sistema.models.Cargo;
 import com.sistema.models.Departamento;
 import com.sistema.repositories.DepartamentoRepository;
@@ -47,9 +48,14 @@ public class CargoController {
 			return "cargo/cadastro"; // template
 		}
 
-        service.salvar(cargo);
-        attr.addFlashAttribute("success", "Registro inserido com sucesso.");
-        return "redirect:/cargos/listar"; // rota
+        try {
+            service.salvar(cargo);
+            attr.addFlashAttribute("success", "Registro inserido com sucesso.");
+            return "redirect:/cargos/listar"; // rota
+        } catch(ValidacaoException e) {
+            result.addError(e.getFieldError());
+            return "cargo/cadastro"; // template
+        }
     }
 
     @GetMapping("/listar")
@@ -92,8 +98,13 @@ public class CargoController {
 			return "cargo/cadastro"; // template
 		}
 
-        service.salvar(cargo);
-        attr.addFlashAttribute("success", "Registro atualizado com sucesso.");
-        return "redirect:/cargos/listar"; // rota
+        try {
+            service.salvar(cargo);
+            attr.addFlashAttribute("success", "Registro inserido com sucesso.");
+            return "redirect:/cargos/listar"; // rota
+        } catch(ValidacaoException e) {
+            result.addError(e.getFieldError());
+            return "cargo/cadastro"; // template
+        }
     }
 }
