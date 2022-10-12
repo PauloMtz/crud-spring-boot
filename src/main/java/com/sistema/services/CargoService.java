@@ -1,8 +1,9 @@
 package com.sistema.services;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.FieldError;
 
@@ -42,8 +43,10 @@ public class CargoService implements ICargoService {
     }
 
     @Override
-    public List<Cargo> listarTodos() {
-        return repository.findAll();
+    public Page<Cargo> listarTodos(int pagNum) {
+        int size = 3;
+        Pageable pageable = PageRequest.of(pagNum -1, size);
+        return repository.findAll(pageable);
     }
     
     private void validaCargoUnico(Cargo cargo) {

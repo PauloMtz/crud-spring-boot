@@ -1,0 +1,51 @@
+<nav aria-label="Page navigation example" th:if="${totalPages > 1}">
+    <div class="row col-sm-10">
+        <div class="col-sm-4">
+            Total de Registros [[${totalItems}]] : Pag. [[${currentPage}]] de [[${totalPages}]]
+        </div>
+    </div>
+</nav>
+
+<nav aria-label="Page navigation example" th:if="${totalPages > 1}">
+    <ul class="pagination justify-content-end">
+
+        <li class="page-item">
+            <a class="page-link" th:if="${currentPage > 1}" 
+                th:href="@{/cargos/listar/1}">First</a>
+            <li class="page-item disabled" th:unless="${currentPage > 1}">
+                <span class="page-link">First</span>
+            </li>
+        </li>
+
+        <li class="page-item">
+            <a class="page-link" th:if="${currentPage > 1}" 
+                th:href="@{'/cargos/listar/' + ${currentPage - 1}}">Prev</a>
+            <li class="page-item disabled" th:unless="${currentPage > 1}">
+                <span class="page-link">Previous</span>
+            </li>
+        </li>
+
+        <li th:class="${i != currentPage} ? 'page-item' : 'page-item active'" 
+            th:each="i: ${#numbers.sequence(1, totalPages)}">
+            <a th:class="${i != currentPage} ? 'page-link' : 'page-link'"
+                th:href="@{'/cargos/listar/' + ${i}}">[[${i}]]</a>
+        </li>
+
+        <li class="page-item">
+            <a class="page-link" th:if="${currentPage < totalPages}" 
+                th:href="@{'/cargos/listar/' + ${currentPage + 1}}">Next</a>
+            <li class="page-item disabled" th:unless="${currentPage < totalPages}">
+                <span class="page-link">Next</span>
+            </li>
+        </li>
+
+        <li class="page-item">
+            <a class="page-link" th:if="${currentPage < totalPages}" 
+                th:href="@{'/cargos/listar/' + ${totalPages}}">Last</a>
+            
+            <li class="page-item disabled" th:unless="${currentPage < totalPages}">
+                <span class="page-link">Last</span>
+            </li>
+        </li>
+    </ul>
+</nav>

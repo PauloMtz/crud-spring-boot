@@ -1,6 +1,7 @@
 package com.sistema.controllers;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -10,6 +11,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -59,10 +61,25 @@ public class CargoController {
     }
 
     @GetMapping("/listar")
-    public ModelAndView listar() {
-        var mv = new ModelAndView("cargo/lista"); // template
-        mv.addObject("cargos", service.listarTodos());
-        return mv;
+    public String listar(Model model) {
+        return listaPaginada(model, 1);
+    }
+
+    @GetMapping("/listar/{pageNumber}")
+    public String listaPaginada(Model model,
+        @PathVariable(value = "pageNumber") int currentPage) {
+
+        Page<Cargo> page = service.listarTodos(currentPage);
+        List<Cargo> cargos = page.getContent();
+        int totalPages = page.getTotalPages();
+        long totalItems = page.getTotalElements();
+
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("totalItems", totalItems);
+        model.addAttribute("cargos", cargos);
+
+        return "/cargo/lista"; // template
     }
 
     // popula campo select no formulário
