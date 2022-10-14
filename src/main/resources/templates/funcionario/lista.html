@@ -20,7 +20,72 @@
 	            </div>
 	        </nav>
 			
-			<div class="container">
+			<div class="container" th:if="${!funcionarios.isEmpty()}">
+				<p>
+	                <i class="oi oi-magnifying-glass"></i><span></span>
+	                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseNome"
+	                        aria-controls="collapseNome">Nome
+	                </button>
+	                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseCargo"
+	                        aria-controls="collapseCargo">Cargo
+	                </button>
+	                <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseData"
+	                        aria-controls="collapseData">Datas
+	                </button>
+	            </p>
+
+	            <div class="row">
+	                <div class="col">
+	                    <div class="collapse" id="collapseNome">
+	
+	                        <nav class="navbar navbar-light bg-light">
+	                            <form class="form-inline" th:action="@{/funcionarios/buscar/nome}">
+	                                <input class="form-control mr-sm-2" type="search" placeholder="nome" aria-label="Search"
+	                                       th:name="nome" />
+	                                <button class="btn btn-outline-success my-2 my-sm-0">Search</button>
+	                            </form>
+	                        </nav>
+	
+	                    </div>
+	                </div>
+	            </div>
+
+	            <div class="row">
+	                <div class="col">
+	                    <div class="collapse" id="collapseCargo">
+	
+	                        <nav class="navbar navbar-light bg-light">
+	                            <form class="form-inline" th:action="@{/funcionarios/buscar/cargo}">
+	                                <select class="form-control mr-sm-2" th:name="id" aria-label="Search">
+	                                    <option value="">Cargo</option>
+	                                    <option th:each="c : ${cargoSelect}" th:value="${c.id}" th:text="${c.nome}"></option>
+	                                </select>
+	                                <button class="btn btn-outline-success my-2 my-sm-0">Search</button>
+	                            </form>
+	                        </nav>
+	
+	                    </div>
+	                </div>
+	            </div>
+
+	            <div class="row">
+	                <div class="col">
+	                    <div class="collapse" id="collapseData">
+	
+	                        <nav class="navbar navbar-light bg-light">
+	                            <form class="form-inline" th:action="@{/funcionarios/buscar/data}">
+	                                <input class="form-control mr-sm-2" type="date" aria-label="Search"
+	                                       th:name="entrada" />
+	                                <input class="form-control mr-sm-2" type="date" aria-label="Search"
+	                                       th:name="saida" />
+	                                <button class="btn btn-outline-success my-2 my-sm-0">Search</button>
+	                            </form>
+	                        </nav>
+	
+	                    </div>
+	                </div>
+	            </div>
+
 				<div class="table-responsive">
 					<div th:replace="fragments/alerta"></div>
 

@@ -1,12 +1,15 @@
 package com.sistema.controllers;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -109,5 +113,27 @@ public class FuncionarioController {
         service.excluir(id);
         attr.addFlashAttribute("success", "Registro excluído com sucesso.");
         return "redirect:/funcionarios/listar"; // rota
+    }
+
+    @GetMapping("/buscar/nome")
+	public String getPorNome(@RequestParam("nome") String nome, ModelMap model) {		
+		model.addAttribute("funcionarios", service.buscarPorNome(nome));
+		return "/funcionario/lista"; // template
+	}
+
+    @GetMapping("/buscar/cargo")
+	public String getPorCargo(@RequestParam("id") Long id, ModelMap model) {
+		model.addAttribute("funcionarios", service.buscarPorCargo(id));
+		return "/funcionario/lista";
+	}
+
+    @GetMapping("/buscar/data")
+    public String getPorDatas(@RequestParam(name = "entrada", required = false) 
+        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate entrada,
+        @RequestParam(name = "saida", required = false) 
+        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate saida, ModelMap model) {
+
+        model.addAttribute("funcionarios", service.buscarPorDatas(entrada, saida));
+        return "/funcionario/lista";
     }
 }
