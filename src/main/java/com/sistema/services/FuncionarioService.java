@@ -4,6 +4,9 @@ import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.sistema.exceptions.FuncionarioNaoEncontradoException;
@@ -40,8 +43,10 @@ public class FuncionarioService implements IFuncionarioService {
     }
 
     @Override
-    public List<Funcionario> listarTodos() {
-        return repository.findAll();
+    public Page<Funcionario> listarTodos(int numPage) {
+        int size = 3;
+        Pageable pageable = PageRequest.of(numPage -1, size);
+        return repository.findAll(pageable);
     }
 
     @Override

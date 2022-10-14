@@ -3,6 +3,8 @@ package com.sistema.services.interfaces;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+
 import com.sistema.models.Funcionario;
 
 public interface IFuncionarioService {
@@ -13,7 +15,7 @@ public interface IFuncionarioService {
 
     Funcionario buscarPorId(Long id);
 
-    List<Funcionario> listarTodos();
+    Page<Funcionario> listarTodos(int numPage);
 
     List<Funcionario> buscarPorNome(String nome);
 

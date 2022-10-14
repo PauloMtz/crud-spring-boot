@@ -7,8 +7,10 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -66,10 +68,25 @@ public class FuncionarioController {
     }
 
     @GetMapping("/listar")
-    public ModelAndView listar() {
-        var mv = new ModelAndView("funcionario/lista"); // template
-        mv.addObject("funcionarios", service.listarTodos());
-        return mv;
+    public String listar(Model model) {
+        return listaPaginada(model, 1);
+    }
+
+    @GetMapping("/listar/{pageNumber}")
+    public String listaPaginada(Model model,
+        @PathVariable(value = "pageNumber") int currentPage) {
+
+        Page<Funcionario> page = service.listarTodos(currentPage);
+        List<Funcionario> funcionarios = page.getContent();
+        int totalPages = page.getTotalPages();
+        long totalItems = page.getTotalElements();
+
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("totalItems", totalItems);
+        model.addAttribute("funcionarios", funcionarios);
+
+        return "/funcionario/lista"; // template
     }
 
     // popula campo select no formulário
