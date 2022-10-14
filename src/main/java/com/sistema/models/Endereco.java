@@ -5,6 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "enderecos")
@@ -16,13 +19,18 @@ public class Endereco extends AbstractEntity<Long> {
     @Column(name = "bairro", nullable = false)
     private String bairro;
 
+    @NotBlank(message = "Preencha o campo cidade")
+    @NotNull(message = "Preencha o campo cidade")
+	@Size(min = 3, max = 255)
     @Column(name = "cidade", nullable = false)
     private String cidade;
 
-    @Column(name = "estado", length = 2)
+    @NotNull(message = "Selecione um estado")
+    @Column(name = "estado", length = 2, nullable = false)
     @Enumerated(EnumType.STRING)
     private UF uf;
 
+    @NotBlank(message = "Preencha o campo CEP")
     @Column(name = "cep", nullable = false, length = 9)
     private String cep;
 

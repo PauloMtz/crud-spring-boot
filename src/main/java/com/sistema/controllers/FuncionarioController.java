@@ -8,7 +8,9 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +23,7 @@ import com.sistema.models.Funcionario;
 import com.sistema.models.UF;
 import com.sistema.repositories.CargoRepository;
 import com.sistema.services.FuncionarioService;
+import com.sistema.validators.FuncionarioValidator;
 
 @Controller
 @RequestMapping("/funcionarios")
@@ -31,6 +34,11 @@ public class FuncionarioController {
 
     @Autowired
     private CargoRepository cargoRepository;
+
+    @InitBinder
+	public void initBinder(WebDataBinder binder) {
+		binder.addValidators(new FuncionarioValidator());
+	} // inicia o validator do spring mvc para validar data de saída
     
     @GetMapping("/cadastrar")
     public ModelAndView cadastrar() {

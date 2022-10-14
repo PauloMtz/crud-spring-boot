@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Size;
@@ -33,6 +34,7 @@ public class Funcionario extends AbstractEntity<Long> {
     @Column(name = "salario", nullable = false, columnDefinition = "DECIMAL(9, 2) DEFAULT 0.00")
     private BigDecimal salario;
     
+    @NotNull(message = "Informe a data de entrada")
     @PastOrPresent(message = "A data de entrada deve ser menor ou igual à data de hoje.")
     @DateTimeFormat(iso = ISO.DATE)
     @Column(name = "name_entrada", nullable = false, columnDefinition = "DATE")
@@ -42,10 +44,13 @@ public class Funcionario extends AbstractEntity<Long> {
     @Column(name = "name_saida", columnDefinition = "DATE")
     private LocalDate dataSaida;
 
+    // valida os atributos de endereço
+    @Valid
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "endereco_id")
     private Endereco endereco;
 
+    @NotNull(message = "Selecione um cargo")
     @ManyToOne
     @JoinColumn(name = "cargo_id")
     private Cargo cargo;
